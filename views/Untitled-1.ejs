@@ -1170,7 +1170,7 @@ const displayPosts = (posts) => {
       videoElement.controls = true;
       videoElement.src = post.videoSrc;
       videoElement.style.maxWidth = "100%";
-      
+      videoElement.setAttribute("id","postPicture1");
       // Check if the video duration is greater than 30 seconds
       const video = document.createElement('video');
       video.preload = "metadata";
