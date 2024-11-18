@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+
+
+<html>
+<link rel="stylesheet" href="/public/index.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="answer" style="display: none;">
+        <p id="incomingCallMessage"></p>
+        <button id="acceptCallButton">Accept</button>
+        <button id="denyCallButton">Deny</button>
+    </div>
+    <div id="messageModal" style="display:none;">
+      <h2 id="modalFriendName">Chat with </h2>
+      <div id="inputContainer">
+          <input type="text" id="messageInput" placeholder="Type your message here..." />
+          <button style="display: none;" id = "send-file"></button>
+          <button style="display: none;" id ="sendMessageButton"></button>
+          <button id="callButton"></button> <!-- New Call button -->
+          <button id="callButtonVideo"></button> <!-- New Call button -->
+      </div>
+      <div id="messagesContainer"></div> <!-- Container for messages -->
+      <button id="closeModalButton" style="display: none;">Close</button>
+      <div id="messageStatus"></div>
+  
+      <div style="display: block;" class="video-container">
+          <video class="video-player" id="local-video" controls autoplay muted></video>
+          <video class="video-player" id="remote-video" controls autoplay></video>
+      </div>
+  </div>
+
+    <div id = "scrollPost">
+
+
+    </div>
+    <div id = "postContasnter">
+     <input placeholder="What's on your mind?" id = "postInputContainer">
+     <img id="pfppostContainer1" src="" alt="Preview Image" style="display: none; width: 50px; height: 50px;" />
+      <img src = "https://via.placeholder.com/100" id = "pfppostContainer">
+      <input type="file"  id = "uploadz" accept="image/*">
+     
+      <img src="https://www.shutterstock.com/image-photo/location-point-perfect-symbols-more-600nw-2249221541.jpg" id = "uploadzz">
+
+      <div id = "uploadzzz">
+
+      </div>
+      <button id = "sendBtn">
+        Share
+
+      </button>
+      <h3 id = "phv">Media</h3>
+      <h3 id = "phv1">Location</h3>
+    </div>
+    <div style="display: none;" id = "Results" >
+
+
+
+    </div>
+    <!-- Header -->
+    <header class="header">
+        <button id = "logout1">Logout</button>
+        <h2 id = "bruh">
+
+            Wave
+        </h2>
+      <div id = "logozz" class="logo">
+        
+      </div>
+      <div class="search-bar">
+        <input type="text" id="search-user" placeholder="Search for users...">
+       
+      </div>
+      <div class="header-nav">
+        <a href="#">Home</a>
+        <a href="#">Messages</a>
+        <a href="#">Profile</a>
+      </div>
+    </header>
+  
+    <div class="main-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="profile">
+          <img id = "pfpIMG" src="https://via.placeholder.com/100" alt="Profile Picture">
+          <input type="file" id="fileInput" accept="image/*"   />
+          <h3 id = "namePF">John Doe</h3>
+          
+        </div>
+        <nav class="sidebar-nav">
+          <a href="#">Your Posts</a>
+          <a href="#">Friends</a>
+          <a href="#">Groups</a>
+          <a href="#">Settings</a>
+        </nav>
+      </aside>
+  
+      <!-- Main Feed -->
+      <main class="feed">
+        <h2></h2>
+        <div class="friend-search-results" id="search-results"></div>
+  
+        <h2>Your Friends</h2>
+        <div class="friend-list">
+          <!-- Example Friend -->
+          <div class="friend">
+            <img src="https://via.placeholder.com/40" alt="Friend Avatar" class="avatar">
+            <div class="friend-info">
+              <h3>Jane Smith</h3>
+              <button class="btn remove-friend">Remove</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2024 Wave. All Rights Reserved.</p>
+    </footer>
+  
+   
+  </body>
+  
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+
+
+    let currentUserId = null;
+  const scrollPost = document.getElementById("scrollPost")
+  const btnsend = document.getElementById("sendBtn")
+    let currentUser = null;
+  const postInputContainer = document.getElementById("postInputContainer");
+    const btnPost = document.getElementById("btnPost");
+    const input = document.getElementById('search-user');
+    const results = document.getElementById('Results');
+    const contr1 = document.getElementById('container1');
+    const contr2 = document.getElementById('container2');
+    const contr3 = document.getElementById('container3');
+    const contr4 = document.getElementById('container4');
+    const contr5 = document.getElementById('container5');
+    const contr6 = document.getElementById('container6');
+    const body = document.body
+    const navz = document.getElementById('nav1');
+    const btn1Lighting = document.getElementById('button2s')
+    const postContainer1 = document.getElementById('postContainer')
+    const header3 = document.getElementById("head")
+    const ul = document.getElementById("Results")
+    let currentFriendEmail = null;
+    let skip = 0;  // Initialize skip
+const limit = 10;  // Limit the number of posts per request
+let isLoading = false;
+    
+    const userName = "Pantsbro"+Math.floor(Math.random() * 100000)
+const password = "x";
+
+let isInCall = false; 
+//if trying it on a phone, use this instead...
+
+
+// Function to send a friend request
+const jwtToken = '239479281asdkjf';
+const apiEndpoints = {
+    getFriends: 'https://10.0.0.66:3000/get-friends',
+    usersz: 'https://10.0.0.66:3000/api/user',
+    addFriend: 'https://10.0.0.66:3000/add-friend',
+    post: "https://10.0.0.66:3000/create-post",
+    pfp: 'https://10.0.0.66:3000/api/profile-picture',
+    sendMessage: 'https://10.0.0.66:3000/send-message',
+    getMessages: 'https://10.0.0.66:3000/get-messages'
+};
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+
+   
+  
+   // Make sure you have results defined
+    let latestRequestId = 0; // Track the latest request ID
+
+    input.addEventListener('input', async function() {
+        const query = input.value.trim();
+        const currentRequestId = ++latestRequestId; // Increment and store the current request ID
+
+        if (query.length > 0) {
+            const response = await fetch(`/search-users?query=${query}`);
+            
+            // If this request is not the latest, exit early
+            if (currentRequestId !== latestRequestId) return;
+
+            const users = await response.json();
+            results.innerHTML = "";
+
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.classList.add('Results1');
+                li.setAttribute('data-friend-email', user.email); // Set data attribute for email
+                li.textContent = `${user.name}`;
+
+                const addfrnd = document.createElement('button');
+                addfrnd.classList.add("addFriend11");
+                addfrnd.textContent = "Add Friend";
+                results.style.display = 'block';
+                li.appendChild(addfrnd);
+                results.appendChild(li);
+            });
+        } else {
+            results.innerHTML = "";
+            results.style.display = 'none';
+        }
+    });
+
+    // Event delegation to handle clicks on dynamically created 'addFriend11' buttons
+    document.body.addEventListener('click', async (event) => {
+        if (event.target && event.target.classList.contains('addFriend11')) {
+            event.preventDefault(); // Prevent default form submission
+            console.log('Button clicked');
+
+            // Get the email from the data attribute
+            const friendEmail = event.target.closest('.Results1').dataset.friendEmail;
+            console.log('Friend email:', friendEmail);
+
+            try {
+                const response = await fetch(apiEndpoints.addFriend, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`, // Ensure jwtToken is defined
+                    },
+                    body: JSON.stringify({ friendEmail }) // Send only the email
+                });
+
+                // Log the response for debugging
+                console.log('Response:', response);
+
+                // Check if the response is in JSON format
+                let responseData;
+                if (response.headers.get('content-type')?.includes('application/json')) {
+                    responseData = await response.json(); // Only parse JSON if content type is correct
+                } else {
+                    const text = await response.text(); // Get the response as plain text
+                  
+                    return; // Exit early to avoid further processing
+                }
+
+                // Check for a successful response
+                if (response.ok) {
+                    
+                    
+                } else {
+                    // If not ok, throw an error with the message from response data
+                    throw new Error(responseData.message || 'Error adding friend.');
+                }
+
+            } catch (error) {
+                console.error('Error:', error); // Log the error for debugging
+             
+            }
+        }
+    });
+
+
+    function renderFriends(friends) {
+    const friendsContainer = document.querySelector('.friend-list');
+    friendsContainer.innerHTML = ''; // Clear the container
+
+    friends.forEach(friend => {
+        const friendElement = document.createElement('div');
+        friendElement.classList.add('friend');
+
+        // Create and append the profile picture element
+        const profilePicture = document.createElement('img');
+        profilePicture.classList.add('PFP');
+        profilePicture.src = friend.profilePicture; // Use Base64 data as the src
+        profilePicture.alt = `${friend.name}'s profile picture`;
+
+        // Set the friend's name
+        const friendName = document.createElement('span');
+        friendName.textContent = friend.name;
+
+        // Append elements
+        friendElement.appendChild(profilePicture);
+        friendElement.appendChild(friendName);
+        friendsContainer.appendChild(friendElement);
+
+        // Correctly pass the individual friend object to openMessageModal
+        friendElement.addEventListener('click', () => {
+            // Check if this logs a single friend object
+            openMessageModal(friend); // Pass the individual friend object
+        });
+
+        // Add hover effect using event listeners
+        friendElement.addEventListener('mouseenter', () => {
+            friendElement.style.backgroundColor = '#e0e0e0'; // Darker background on hover
+        });
+        friendElement.addEventListener('mouseleave', () => {
+            friendElement.style.backgroundColor = 'white'; // Original background
+        });
+    });
+}
+
+
+
+function renderNewFriend(friendName) {
+    const friendsContainer = document.getElementById('container4');
+    const friendElement = document.createElement('div');
+    friendElement.classList.add("frnd");
+    friendElement.textContent = friendName;
+    friendElement.addEventListener('click', () => openMessageModal(friendName));
+    
+    // Adding styles directly
+    friendElement.style.cursor = 'pointer'; // Change cursor to pointer on hover
+    friendElement.style.padding = '10px'; // Add padding
+    friendElement.style.margin = '5px'; // Add margin between friends
+    friendElement.style.border = '1px solid #ccc'; // Add a border
+    friendElement.style.borderRadius = '5px'; // Round the corners
+    friendElement.style.backgroundColor = 'lightgray'; // Background color
+    friendElement.style.transition = 'background-color 0.3s'; // Transition effect on hover
+
+    // Add hover effect using event listeners
+    friendElement.addEventListener('mouseenter', () => {
+        friendElement.style.backgroundColor = '#222222'; // Darker background on hover
+    });
+    friendElement.addEventListener('mouseleave', () => {
+        friendElement.style.backgroundColor = '#222222'; // Original background
+    });
+
+    friendsContainer.appendChild(friendElement);
+}
+
+async function fetchData(url, options = {}) {
+    // Log the URL to ensure fetchData is being called
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+}
+async function loadFriends() {
+    // Debugging statement to check if function runs
+    try {
+       
+        const friendsList = await fetchData(apiEndpoints.getFriends, {
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+            },
+        });
+       
+        renderFriends(friendsList);  // Render the friends list
+    } catch (error) {
+        console.error('Error loading friends:', error);
+        displayError('Failed to load friends.');
+    }
+}
+
+loadFriends();
+
+});
+
+    
+
+
+
+
+
+
+// Handle file input and image preview
+document.getElementById("uploadz").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    const pfppostContainer = document.getElementById("pfppostContainer1");
+
+    if (file) {
+      // Create a URL for the image and display it in the preview image element
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const img = new Image();
+        img.src = event.target.result;
+
+        img.onload = function () {
+          // Create a canvas to resize and compress the image
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          // Set the target dimensions (you can adjust max width/height as needed)
+          const maxWidth = 800;  // Max width in pixels
+          const scaleFactor = maxWidth / img.width;
+          const maxHeight = img.height * scaleFactor;
+
+          // Set canvas size
+          canvas.width = maxWidth;
+          canvas.height = maxHeight;
+
+          // Draw the image on the canvas with the new size
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          // Compress the image to JPEG format with quality 0.7 (adjustable)
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+
+          // Set the compressed image to the preview container
+          pfppostContainer.src = compressedDataUrl;
+          pfppostContainer.style.display = "block"; // Show the preview image
+        };
+      };
+      reader.readAsDataURL(file);
+    } else {
+      pfppostContainer.style.display = "none"; // Hide the preview if no file is selected
+    }
+  });
+
+// Handle the Share button click to post the image, text, etc.
+btnsend.addEventListener("click", async function () {
+    
+  // Get the text from the input field
+  const text = document.getElementById("postInputContainer").value;
+  const pfppostContainer1 = document.getElementById("pfppostContainer1");
+    const elementPF = document.getElementById('pfpIMG');
+  // Get the image URL from the preview (this will be the posted image)
+  const imgSrc = pfppostContainer1.src;
+  
+  // Get the name (this can be dynamic, hardcoded here as "User")
+  const name = currentUser;
+
+  
+  
+  // Get the timestamp
+  const now = new Date();
+  const time = now.toLocaleString(); // or any format you prefer
+
+  // Create new post container elements
+  const newPost = document.createElement("div");
+  const newImg = document.createElement("img");
+  const newImg1 = document.createElement("img");
+  const nameElement = document.createElement("h3");
+  const timeElement = document.createElement("h3");
+  const msgElement = document.createElement("h3");
+const likeBtn = document.createElement("button");
+
+likeBtn.setAttribute('id', "likeBtn")
+
+newPost.appendChild(likeBtn);
+
+
+
+
+likeBtn.addEventListener('click', function () {
+    if (likeBtn.id === "likeBtnConfirm") {
+        likeBtn.id = "likeBtn";
+    } else {
+        likeBtn.id = "likeBtnConfirm";
+    }
+});
+
+  // Set up content for each element
+  nameElement.innerHTML = name;
+  nameElement.setAttribute("id", "nameElement");
+
+  timeElement.innerHTML = time;
+  timeElement.setAttribute("id", "timeElement");
+
+  msgElement.innerHTML = text;
+  msgElement.setAttribute("id", "msglz");
+
+  // Set the imgSrc for the new image if an image was selected
+  newImg.src = imgSrc || "https://via.placeholder.com/100"; // fallback to placeholder
+  newImg.setAttribute("id", "postPicture1");
+  newImg1.setAttribute("id", "postPicture");
+  newImg1.src = elementPF.src;
+  // Append all elements to the new post
+  newPost.setAttribute("id", "post1");
+  newPost.appendChild(nameElement);
+  newPost.appendChild(timeElement);
+  newPost.appendChild(msgElement);
+  newPost.appendChild(newImg);
+  newPost.appendChild(newImg1);
+  const postData = { userId: currentUserId, text: text , imgSrc: imgSrc, time: time , userNamez: currentUser }; // userId should be defined elsewhere
+
+  try {
+    const response = await fetch("/api/create-post", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(postData),
+    });
+
+    if (response.ok) {
+      console.log("Post saved successfully!");
+    } else {
+      console.error("Failed to save post.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+  // Append the new post to the scroll container
+  document.getElementById("scrollPost").prepend(newPost);
+
+  // Clear the input field and reset the preview image
+  document.getElementById("postInputContainer").value = "";
+
+  pfppostContainer1.src = "";
+  pfppostContainer1.style.display = "none"; // Hide the preview image again
+
+
+
+  
+});
+
+
+
+
+
+let isSocketInitialized = false;
+let incomingCallData;
+let peerConnection = null;
+let remoteCandidatesQueue = [];
+let didIOffer = false;
+let localStream;
+let remoteStream;
+let currentEmail = '';
+let currentFriend = '';
+let socket;
+
+const userId = "YOUR_USER_ID";
+
+const localVideoEl = document.querySelector('#local-video');
+const remoteVideoEl = document.querySelector('#remote-video');
+
+let servers = {
+    iceServers: [
+        {
+            urls: [
+                'stun:stun.l.google.com:19302',
+                'stun:stun1.l.google.com:19302'
+            ]
+        },
+        {
+            urls: 'turn:relay1.expressturn.com:3478',
+            username: 'efJ3O8UT1NCM9BH5NE', 
+            credential: '7txHlplcvesmzjo8' 
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function initializeSocket() {
+    
+    socket = io.connect('https://10.0.0.66:3000/', {
+        auth: {
+            userName: userName, // Use email as userName or keep them separate if needed
+            password: password,
+            userEmail: currentEmail  // Include userEmail in the auth object
+        }
+    });
+
+    socket.on('disconnect', (reason) => {
+        console.error(`Socket disconnected, reason: ${reason}`);
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Connection Error:', error);
+    });
+
+
+
+    socket.on('callTimeout', ({ offerId }) => {
+        // Find the offer element by offer ID and remove it if it exists
+        const offerElement = document.getElementById(`offer-${offerId}`);
+        if (offerElement) {
+            offerElement.remove();
+            alert("The call was not answered and has been automatically ended.");
+        }
+    });
+
+    var answer1 = document.getElementById("answer");
+    
+socket.on('availableOffers', offers => {
+    console.log(offers);
+    createOfferEls(offers);
+});
+socket.on('message1', (messageData) => {
+    appendMessageToChat(messageData);
+});
+// Someone just made a new offer and we're already here - call createOfferEls
+socket.on('newOfferAwaiting', offers => {
+    createOfferEls(offers);
+});
+
+socket.on('answerResponse', offerObj => {
+    console.log(offerObj);
+    addAnswer(offerObj);
+});
+const addNewIceCandidate = iceCandidate=>{
+    peerConnection.addIceCandidate(iceCandidate)
+    console.log("======Added Ice Candidate======")
+}
+socket.on('receivedIceCandidateFromServer', iceCandidate => {
+    addNewIceCandidate(iceCandidate);
+    console.log(iceCandidate);
+});
+
+function createOfferEls(offers) {
+    const offersContainer = document.getElementById("answer");
+    offersContainer.innerHTML = ''; // Clear previous offers
+
+    offers.forEach(o => {
+        const offerEl = document.createElement('div');
+        offerEl.classList.add('offer');
+
+        const acceptButton = document.createElement('button');
+        acceptButton.textContent = 'Accept Call';
+        acceptButton.id = 'acceptCallButton';
+
+        acceptButton.addEventListener('click', () => {
+            answerOffer(o);
+            answer1.style.display = "none";
+            offerEl.remove();
+        });
+
+        const denyButton = document.createElement('button');
+        denyButton.textContent = 'Deny Call';
+        denyButton.id = 'denyCallButton';
+
+        denyButton.addEventListener('click', () => {
+            denyOffer(o); // Emit deny to the server
+            offerEl.remove();
+        });
+
+        offerEl.appendChild(acceptButton);
+        offerEl.appendChild(denyButton);
+        offersContainer.appendChild(offerEl);
+    });
+
+    answer1.style.display = "block";
+
+    // Listen for the call timeout event from the server
+const sound = new Audio("/public/ringtone.mp3");
+
+sound.play()
+}
+
+   
+}
+    
+
+    
+        
+   
+    
+    
+   
+        
+
+
+
+    
+    
+    function displayMessage({ sender, message }) {
+    const messagesContainer = document.getElementById('messagesContainer');
+    
+    // Create a message wrapper
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    
+    // Create the sender element
+    const senderElement = document.createElement('span');
+    senderElement.classList.add('sender');
+    senderElement.textContent = sender;
+    
+    // Create the message content element
+    const contentElement = document.createElement('span');
+    contentElement.classList.add('content');
+    contentElement.textContent = message;
+    
+    // Append sender and content to the message element
+    messageElement.appendChild(senderElement);
+    messageElement.appendChild(contentElement);
+    
+    // Append the message element to the container
+    messagesContainer.appendChild(messageElement);
+    
+    // Scroll to the bottom of the chat
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+
+document.addEventListener('DOMContentLoaded', function() {
+
+   
+   
+   
+    // Replace with valid token
+  
+   
+ 
+
+    async function loadProfilePicture() {
+  try {
+    const response = await fetch('/api/profile-picture');
+    const imgElement = document.getElementById('pfpIMG');
+const imgElement1 = document.getElementById('pfppostContainer');
+    
+    // Check if the image element exists in the DOM
+    if (!imgElement) {
+      console.error('Profile image element not found!');
+      return;
+    }
+
+    if (response.ok) {
+      const blob = await response.blob(); // Convert the image data into a blob
+      imgElement.src = URL.createObjectURL(blob);
+       imgElement1.src = URL.createObjectURL(blob);
+    } else if (response.status === 404) {
+      console.error('Profile picture not found. Using default image.');
+     
+    }
+  } catch (error) {
+    console.error('Error loading profile picture:', error);
+  }
+}
+
+
+loadProfilePicture()
+ 
+
+   
+  
+
+document.getElementById('messageInput').addEventListener('keydown', async function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent newline in the input field
+
+        const messageInput = document.getElementById('messageInput').value.trim(); // Trim any extra spaces
+        const valuez =  document.getElementById('namePF').textContent;
+        if (!currentFriend || !messageInput) {
+            console.error('Both friend name and message are required');
+            return;
+        }
+
+        try {
+            const response = await fetch(apiEndpoints.sendMessage, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`,
+                },
+                body: JSON.stringify({ recipient: currentFriend, message: messageInput })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || response.statusText);
+            }
+
+            const messageData = {
+                sender: valuez, // Replace with the actual sender's name
+                recipient: currentFriend,
+                message: messageInput,
+            };
+
+            // Clear input field after sending message
+            document.getElementById('messageInput').value = '';
+            socket.emit('message1', messageData);
+
+            appendMessageToChat(messageData);
+
+        } catch (error) {
+            console.error('Failed to send message:', error);
+        }
+    }
+});
+
+});
+function appendMessageToChat(messageData) {
+    const messagesContainer = document.getElementById('messagesContainer');
+    const messageEl = document.createElement('div');
+    messageEl.classList.add("message")
+    messageEl.textContent = `${messageData.sender}: ${messageData.message}`;
+    messagesContainer.appendChild(messageEl);
+}
+
+
+
+ async function openMessageModal(friend)  {
+  
+    // Close the current chat if it's open
+    if (currentFriend) {
+        document.getElementById('messagesContainer').innerHTML = ''; // Clear existing messages
+        document.getElementById('messageModal').style.display = 'none'; // Close the modal
+    }
+
+    fetch('/api/user/email', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}` // Include your token if you're using JWT or similar
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('User Email:', data.email);
+        currentEmail = data.email;
+
+        if (!isSocketInitialized) {
+            initializeSocket();  // Initialize the socket if not done already
+            isSocketInitialized = true; // Mark socket as initialized
+        }
+
+        // Ensure currentFriend is an array
+        const friendEmails = [friend.email]; // Wrap in an array if single
+       
+        socket.emit('registerUser', currentEmail, userName, currentFriend);
+
+        // Hide other UI elements
+        document.getElementById("postContasnter").style.display = 'none';
+        document.getElementById("scrollPost").style.display = "none";
+        console.log(friend);
+        // Load messages for the selected friend
+        loadMessages(friend.name, currentUser); // Pass the correct parameters
+    })
+    .catch(error => {
+        console.error('Error fetching email:', error);
+    });
+
+    currentFriend = friend.name; // Set currentFriend to email
+    console.log('Current friend selected:', currentFriend);
+
+    document.getElementById('modalFriendName').textContent = `${friend.name}`;
+    document.getElementById('messageModal').style.display = 'block'; // Open new chat
+
+    try {
+        const response = await fetch(`/get-friend-email/${friend.name}`);
+        const data = await response.json();
+        console.log(data.email);  // Use the email in the modal logic
+
+        currentFriendEmail = data.email
+    } catch (err) {
+        console.error('Error fetching friend email:', err);
+    }
+
+
+}
+
+// Function to load messages
+function loadMessages(friendName, currentEmail) {
+    const url = `https://10.0.0.66:3000/get-messages?friend=${friendName}&name=${currentUser}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            // Process the fetched messages here
+           
+
+            data.forEach(message => {
+                displayMessage({
+                    sender: message.sender,
+                    message: message.message
+                });
+            });
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+}
+
+
+
+
+// Accept call button
+
+// Handle incoming video answers
+
+const call = async (e) => {
+    await fetchUserMedia();
+    await createPeerConnection();
+    
+    try {
+        console.log("Creating offer...");
+        const offer = await peerConnection.createOffer();
+        console.log(offer);
+        await peerConnection.setLocalDescription(offer);
+        
+        // Include `currentFriend` email in the emit event for targeted signaling
+        didIOffer = true;
+        socket.emit('newOffer', { offer, targetEmail: currentFriendEmail }); // send offer to signaling server with target info
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+const answerOffer = async(offerObj)=>{
+    await fetchUserMedia()
+    await createPeerConnection(offerObj);
+    const answer = await peerConnection.createAnswer({}); //just to make the docs happy
+    await peerConnection.setLocalDescription(answer); //this is CLIENT2, and CLIENT2 uses the answer as the localDesc
+    console.log(offerObj)
+    console.log(answer)
+    // console.log(peerConnection.signalingState) //should be have-local-pranswer because CLIENT2 has set its local desc to it's answer (but it won't be)
+    //add the answer to the offerObj so the server knows which offer this is related to
+    offerObj.answer = answer 
+    //emit the answer to the signaling server, so it can emit to CLIENT1
+    //expect a response from the server with the already existing ICE candidates
+    const offerIceCandidates = await socket.emitWithAck('newAnswer',offerObj)
+    offerIceCandidates.forEach(c=>{
+        peerConnection.addIceCandidate(c);
+        console.log("======Added Ice Candidate======")
+    })
+    console.log(offerIceCandidates)
+}
+
+const addAnswer = async(offerObj)=>{
+    //addAnswer is called in socketListeners when an answerResponse is emitted.
+    //at this point, the offer and answer have been exchanged!
+    //now CLIENT1 needs to set the remote
+    await peerConnection.setRemoteDescription(offerObj.answer)
+    // console.log(peerConnection.signalingState)
+}
+
+const fetchUserMedia = ()=>{
+    return new Promise(async(resolve, reject)=>{
+        try{
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+            localVideoEl.srcObject = stream;
+            localStream = stream;    
+            resolve();    
+        }catch(err){
+            console.log(err);
+            reject()
+        }
+    })
+}
+
+const createPeerConnection = (offerObj)=>{
+    return new Promise(async(resolve, reject)=>{
+        //RTCPeerConnection is the thing that creates the connection
+        //we can pass a config object, and that config object can contain stun servers
+        //which will fetch us ICE candidates
+        peerConnection = await new RTCPeerConnection(servers)
+        remoteStream = new MediaStream()
+        remoteVideoEl.srcObject = remoteStream;
+
+
+        localStream.getTracks().forEach(track=>{
+            //add localtracks so that they can be sent once the connection is established
+            peerConnection.addTrack(track,localStream);
+        })
+
+        peerConnection.addEventListener("signalingstatechange", (event) => {
+            console.log(event);
+            console.log(peerConnection.signalingState)
+        });
+
+        peerConnection.addEventListener('icecandidate',e=>{
+            console.log('........Ice candidate found!......')
+            console.log(e)
+            if(e.candidate){
+                socket.emit('sendIceCandidateToSignalingServer',{
+                    iceCandidate: e.candidate,
+                    iceUserName: currentEmail,
+                    didIOffer,
+                })    
+            }
+        })
+        
+        peerConnection.addEventListener('track',e=>{
+            console.log("Got a track from the other peer!! How excting")
+            console.log(e)
+            e.streams[0].getTracks().forEach(track=>{
+                remoteStream.addTrack(track,remoteStream);
+                console.log("Here's an exciting moment... fingers cross")
+            })
+        })
+
+        if(offerObj){
+            //this won't be set when called from call();
+            //will be set when we call from answerOffer()
+            // console.log(peerConnection.signalingState) //should be stable because no setDesc has been run yet
+            await peerConnection.setRemoteDescription(offerObj.offer)
+            // console.log(peerConnection.signalingState) //should be have-remote-offer, because client2 has setRemoteDesc on the offer
+        }
+        resolve();
+    })
+}
+
+
+async function fetchData(url, options = {}) {
+    console.log("Fetching data from:", url);  // Log the URL to ensure fetchData is being called
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+}
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+   function displayError(message) {
+       const errorContainer = document.getElementById('responseMessage');
+       errorContainer.textContent = message;
+       errorContainer.style.color = 'red';
+   }
+
+
+const cntr7 = document.querySelector(".container7")
+const addfriendbtn = document.getElementById("Login1223");
+const msg = document.getElementById("messageModal");
+
+
+
+
+
+document.querySelector('#callButtonVideo').addEventListener('click',call)
+  
+
+   
+    
+function exectue() {
+       
+  const getFriendPosts = async () => {
+  if (isLoading) return; // Prevent multiple fetch calls
+  isLoading = true;
+
+  try {
+    const response = await fetch(`/api/get-friend-posts?skip=${skip}&limit=${limit}`);
+    const result = await response.json();
+
+    if (result.success) {
+      displayPosts(result.posts);
+      skip += limit; // Update skip for the next fetch
+    } else {
+      console.log("No posts to display.");
+    }
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  } finally {
+    isLoading = false;
+  }
+};
+
+const displayPosts = (posts) => {
+  const postsContainer = document.getElementById('scrollPost');
+
+  if (!posts || posts.length === 0) {
+    console.log('No posts to display');
+    return;
+  }
+
+  posts.forEach((post) => {
+    const postElement = document.createElement('div');
+    postElement.setAttribute('id', 'post1');
+    postElement.classList.add('post');
+    postElement.dataset.postId = post._id; // Store post ID for deletion
+
+    const profileImgSrc = post.profilePicture || 'https://via.placeholder.com/100';
+
+    // Render the post content with a conditional delete button
+    postElement.innerHTML = `
+      <h3 id="nameElement">${post.userId.name}</h3>
+      <p id="msglz">${post.text}</p>
+      <img id="postPicture1" src="${post.imgSrc}" alt="Post Image">
+      <small id="timeElement">${new Date(post.time).toLocaleString()}</small>
+      <img id="postPicture" src="${profileImgSrc}" alt="Profile Picture">
+      ${post.canDelete ? '<button class="delete-post-btn">Delete</button>' : ''}
+    `;
+
+    postsContainer.appendChild(postElement);
+  });
+};
+
+// Handle deletion of a post
+document.getElementById('scrollPost').addEventListener('click', async (e) => {
+  if (e.target.classList.contains('delete-post-btn')) {
+    const postElement = e.target.closest('.post');
+    const postId = postElement.dataset.postId;
+
+    try {
+      const response = await fetch(`/delete-post/${postId}`, { method: 'DELETE' });
+      const result = await response.json();
+
+      if (response.ok) {
+        postElement.remove(); // Remove the post from the DOM
+        alert('Post deleted successfully.');
+      } else {
+        alert(result.error || 'Failed to delete the post.');
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Error occurred while deleting the post.');
+    }
+  }
+});
+const handleScroll = () => {
+  const container = document.getElementById('scrollPost');
+  if (container.scrollTop + container.clientHeight >= container.scrollHeight - 10) {
+    getFriendPosts(); // Load more posts when scrolled to the bottom
+  }
+};
+// Load initial posts and attach scroll listener
+getFriendPosts();
+document.getElementById('scrollPost').addEventListener('scroll', handleScroll);
+
+
+
+
+    }
+
+
+
+
+
+// Function to fetch and display the user's name
+async function displayUserName() {
+  try {
+    const response = await fetch('/api/user');
+    const data = await response.json();
+
+    if (response.ok) {
+      // Display the user's name in an element with ID 'usernameDisplay'
+      document.getElementById('namePF').textContent = `${data.name}`;
+      currentUser = data.name
+
+      
+    } else {
+      console.error('Failed to fetch user name:', data.error);
+    }
+  } catch (error) {
+    console.error('Error fetching user name:', error);
+  }
+}
+
+// Call the function to display the name on page load
+displayUserName();
+
+
+
+
+
+
+document.getElementById('fileInput').addEventListener('change', async function () {
+  const file = this.files[0];
+
+  if (file) {
+    // Create FormData and append the file
+    const formData = new FormData();
+    formData.append('profilePic', file);
+
+    // Send the file to the server
+    try {
+      const response = await fetch('/api/upload-profile-picture', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('Profile picture uploaded successfully!');
+      } else {
+        console.error('Error uploading picture:', result.error);
+      }
+    } catch (error) {
+      console.error('Failed to upload profile picture:', error);
+    }
+  }
+});
+
+
+
+
+const getCurrentUser = async () => {
+  try {
+    const response = await fetch('/current-user');
+    const data = await response.json();
+    const userId = data.userId;
+    currentUserId = data.userId;
+    exectue()
+ 
+    return userId;
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+  }
+};
+
+getCurrentUser();  // Fetch the current user's ObjectId
+
+document.getElementById('logout1').addEventListener('click', function() {
+fetch('/logout', {
+   method: 'POST',
+   credentials: 'same-origin',
+   headers: {
+       'Content-Type': 'application/json'
+   }
+})
+.then(response => {
+   if (response.ok) {
+       window.location.href = '/login'; // Redirect to login page after successful sign-out
+   } else {
+       alert('Failed to sign out');
+   }
+})
+.catch(error => {
+   console.error('Error:', error);
+});
+
+});
+
+
+</script>
+
+
+
+
+
+
+<script>
+
+
+
+
+    
+</script>
+
+
+
+
+
+
+
+
+
+</html>

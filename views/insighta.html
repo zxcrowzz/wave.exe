@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Insight</title>
+    <link rel="stylesheet" href="/public/insight.css">
+</head>
+<body>
+
+<header id="header1">
+    
+    <img alt="not available" id="img1" src="/public/InsightLogo.png">
+    
+    
+Insight</header>
+
+<nav id="navbar">
+    <button id="Login122" class="classzzz">Sign Out</button>
+    <button id="Login1223" class="classzzz">Add Friend</button>
+    
+</nav>
+
+
+<div id="FriendsList">
+    <h1 id="h21">Friends List</h1>
+
+
+    
+</div>
+
+<!-- Message Modal -->
+<div id="messageModal" style="display:none;">
+    <h2 id="modalFriendName">Chat with </h2>
+    <div id="inputContainer">
+        <input type="text" id="messageInput" placeholder="Type your message here..." />
+        <button id = "send-file">+</button>
+        <button id="sendMessageButton">Send</button>
+        <button id="callButton" style="background-color: green; color: white;">Call</button> <!-- New Call button -->
+    </div>
+    <div id="messagesContainer"></div> <!-- Container for messages -->
+    <button id="closeModalButton" style="display: none;">Close</button>
+    <div id="messageStatus"></div>
+
+    <div class="video-container">
+        <video class="video-player" id="local-video" controls autoplay muted></video>
+        <video class="video-player" id="remote-video" controls autoplay></video>
+    </div>
+</div>
+
+<div id = "hey1" class="container7">
+    <h1 id="addfriendhd">Add Friend</h1>
+    <form id="addFriendForm">
+        <label for="friendEmail">Friend's Email:</label>
+        <input type="email" id="friendEmail" name="friendEmail" required>
+        <button type="submit">Send Friend Request</button>
+    </form>
+    <div id="responseMessage"></div>
+</div>
+
+<div id="answer" style="display: none;">
+    <p id="incomingCallMessage"></p>
+    <button id="acceptCallButton">Accept</button>
+    <button id="denyCallButton">Deny</button>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="script1.js"></script>
+<script src="socketListeners.js"></script>
+<script>
+    // On page load, hide the answer button
+    window.onload = () => {
+        const answerEl = document.getElementById('answer');
+        answerEl.style.display = 'none'; // Ensure the answer button is hidden
+    };
+</script>
+
+
+
+</body>
+</html>

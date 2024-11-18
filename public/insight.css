@@ -1,0 +1,983 @@
+#img1 {
+
+
+
+    width: 230px;
+
+
+    height: 110px;
+
+
+    position: absolute;
+
+    border-radius: 5px;
+
+   top: -1.5%;
+
+   left: 55%;
+    
+
+    
+    transition: .5s;
+
+    
+}
+#img1:hover{
+
+
+    scale: 1.1;
+}
+body {
+
+    background-image: url(''); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center center; /* Centers the image */
+    height: 100vh; /* Ensures the body covers the full viewport height */
+    margin: 0; 
+}
+
+
+
+#header1 {
+
+
+    color: white;
+
+    opacity: .6;
+
+    z-index: 2;
+
+    position: absolute;
+    left: 46%;
+
+    top: 1px;
+    font-size: 40px;
+
+    border: 1px solid black;
+
+    padding: 5px;
+
+    border-radius: 10px;
+
+
+    
+
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#navbar {
+    position:absolute;
+
+    background-color: #141414;
+
+    width: 100%;
+
+    height: 10%;
+
+    left: 0;
+
+    top: 0;
+    box-shadow: 1px 1px 5px 4px #070707;
+} 
+  i need it to size better for all screens without messing up design cause things out of place when screen is bigger
+
+
+
+#box1 {
+    display: flex;
+    flex-direction: column; /* Align children in a column */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    background-color: #141414;
+    width: 90%; /* Responsive width */
+    max-width: 350px; /* Maximum width */
+    height: auto; /* Allow height to adjust based on content */
+    box-shadow: 1px 1px 5px 4px #141414;
+    border-radius: 5px;
+    padding: 20px; /* Inner padding */
+    border: 1px solid black;
+}
+
+#Header {
+    color: gray;
+    font-size: 200%;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 20px; /* Spacing from the header to inputs */
+}
+
+.input-container {
+    display: flex;
+    align-items: center; /* Center icons with the input */
+    width: 100%; /* Full width */
+    margin-bottom: 15px; /* Spacing between input fields */
+}
+
+.input-container img {
+    margin-right: 10px; /* Space between icon and input */
+    width: 24px; /* Set a consistent width */
+    height: 24px; /* Set a consistent height */
+}
+
+
+#InputField, #InputField1, #InputField2 {
+    background-color: #141414;
+    height: 40px; /* Adjust height as necessary */
+    color: rgb(100, 100, 100);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    border-bottom: 1px solid gray;
+    width: 100%; /* Full width */
+}
+
+#singup1 {
+    background-color: #141414;
+    outline: none;
+    border: 2px solid black;
+    height: 40px; /* Adjust height as necessary */
+    color: whitesmoke;
+    opacity: 0.8;
+    width: 100%; /* Full width */
+    cursor: pointer; /* Change cursor on hover */
+}
+
+#highlight {
+    color: white;
+    background-color: #141414;
+    border: none;
+    opacity: 0.8;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+#member {
+    margin-top: 20px; /* Add space above the member text */
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+}
+
+/* Optional: Adjust bottom spacing for the container */
+#box1 {
+    margin-bottom: 20px; /* Space from bottom of the viewport */
+}
+
+
+#holder {
+    display: flex;
+    flex-direction: column; /* Align children in a column */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    background-color: #141414;
+    width: 90%; /* Responsive width */
+    max-width: 350px; /* Maximum width */
+    box-shadow: 1px 1px 5px 4px #070707;
+    border-radius: 5px;
+    padding: 20px; /* Inner padding */
+}
+
+h2 {
+    color: gray;
+    font-size: 200%;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 20px; /* Spacing from the header to inputs */
+    text-align: center; /* Center text */
+}
+
+#VerificationBox {
+    background-color: #141414;
+    height: 40px; /* Adjust height as necessary */
+    color: white; /* Text color */
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    border-bottom: 1px solid gray;
+    width: 100%; /* Full width */
+    margin-bottom: 15px; /* Spacing below the input */
+    padding: 5px; /* Inner padding for the input */
+}
+
+#Confirm {
+    background-color: #141414;
+    outline: none;
+    border: 2px solid black;
+    height: 40px; /* Adjust height as necessary */
+    color: whitesmoke;
+    opacity: 0.8;
+    width: 100%; /* Full width */
+    cursor: pointer; /* Change cursor on hover */
+}
+
+/* Optional: Adjust bottom spacing for the holder */
+#holder {
+    margin-bottom: 20px; /* Space from bottom of the viewport */
+}
+
+
+
+.video-player {
+    width: 100%;  /* Adjust to fit the width of the container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 280px; /* Ensure each video takes up no more than half the container height */
+    margin: 0px 0; /* Add some vertical margin between videos */
+}
+
+#videos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#video-wrapper {
+    position: relative;
+}
+#container2 {
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    background-color: #222222;
+    width: 780px;
+    height: 700px;
+    z-index: 3;
+    left: 280px;
+    top: 0px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 3px;
+    overflow: hidden;
+
+    
+}
+
+
+#container {
+    position: relative;
+    max-height: 100%;
+    max-width: 100%;
+    width: 1050px;
+    height: 700px;
+    background-color: #141414;
+    border-radius: 10px;
+    
+    
+}
+
+#headimage {
+    max-height: 100%;
+    max-width: 100%;
+    position: relative;
+    width: 80px;
+    height: 50px;
+    background-image: url('https://banner2.cleanpng.com/20180408/yae/avglbsunl.webp'); /* Ensure your image path is correct */
+    background-size: cover; /* Ensure the image covers the entire element */
+    background-blend-mode: multiply; /* Blend the image with the background */
+    background-color: #141414;
+    top: 15px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+}
+
+#h11 {
+    max-height: 100%;
+    max-width: 100%;
+    position: relative;
+    width: 200px;
+    height: 100px;
+    left: 75px;
+    top: 5px;
+}
+
+
+
+#logout {
+    max-height: 100%;
+    max-width: 100%;
+    height: 30px;
+    width: 100px;
+    border-radius: 10px;
+    position: relative;
+    left: 930px;
+    bottom: -530px;
+    z-index: 4;
+
+    top: 0px;
+}
+
+#inputz {
+    max-height: 100%;
+    max-width: 100%;
+    margin-top: 573px;
+    width: 270px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #000;
+
+    position: relative;
+
+    left: -100px;
+
+    top: 25px;
+    
+}
+
+#waiting {
+
+
+
+    position: absolute;
+
+
+    margin-top: 10000px;
+}
+
+
+#container1 {
+    position: relative;
+
+    top: -545px;
+    right: -5px;
+
+    z-index: 5;
+
+
+    width: 270px;        
+    height: 520px;        
+    overflow-y: scroll;   
+    border: 1px solid #000000; 
+
+    padding: 2px;
+}
+
+#container1::-webkit-scrollbar {
+    display: none; 
+}
+
+.classzzz {
+
+    position: relative;
+    background-color: #141414;
+
+    border: none;
+
+
+    color: white;
+
+    opacity: .6;
+    
+    top: 16%;
+
+    left: 70%;
+    
+    
+padding-left: 50px;
+
+font-size: 25px;
+
+transition: .5s;
+    
+}
+
+
+.classzzz:hover{
+
+
+    
+
+    opacity: 1;
+
+
+}
+
+#localvideo {
+position: absolute;
+width: 20%;
+
+
+height: 30%;
+
+border: 1px solid #141414;
+
+
+left: 5%;
+
+top: 21%;
+
+}
+
+#localstream {
+    position: absolute;
+    width: 20%;
+    
+    
+    height: 30%;
+    
+    border: 1px solid #141414;
+    
+    
+    left: 5%;
+    
+    top: 53%;
+
+}
+
+
+#footer1 {
+
+
+    position: absolute;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 8%;
+
+    background-color: #141414;
+}
+
+#FriendsList {
+    position: absolute;
+    background-color: #141414; /* Dark background similar to Discord */
+    padding: 15px; /* Padding for spacing */
+    margin: 20px; /* Margin around the friends list */
+    max-height: 85%; /* Set max height for scrolling */
+    height: 100%; /* Allow height to adjust based on content */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    top: 7.5%; /* Position from the top */
+    width: 250px; /* Set a fixed width for better appearance */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+    left: 0;
+    top: 10% ;
+    
+}
+
+
+#h21 {
+    color: white; /* Header text color */
+    margin: 0 0 10px; /* Margin to space header from the list */
+    font-size: 24px; /* Increased header font size for better visibility */
+}
+#Login122 {
+
+
+
+    position: relative;
+
+
+    right: 100px;
+
+    width: 200px;
+
+
+    height: 50px;
+}
+
+
+
+#body {
+
+    background-image: url('https://img.freepik.com/premium-vector/abstract-background-concentric-triangles-black-colors_444390-4521.jpg?semt=ais_hybrid'); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center center; /* Centers the image */
+    height: 100vh; /* Ensures the body covers the full viewport height */
+    margin: 0; 
+}
+
+#messageModal {
+    position: absolute;
+    bottom: 0; /* Align to the bottom of the viewport */
+    right: 20%; /* Align to the right of the viewport */
+    width: 60%; /* Fill the full width of the viewport */
+    background-color: rgba(20, 20, 20, 0.9); /* Slightly darker transparent background */
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+    padding: 15px; /* Padding for spacing */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow above for depth */
+    z-index: 1000;
+    display: none; /* Keep it hidden by default */
+    overflow-y: scroll hidden;
+    top: 12.5%;
+    height: 80%;
+
+    
+}
+
+#messageModal h2 {
+    color: white; /* Header text color */
+    margin-top: 0;
+    font-size: 20px; /* Slightly larger font size for visibility */
+}
+
+#inputContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Space above the input */
+
+}
+
+#messageInput {
+    
+    flex: 1; /* Allow input to grow and take available space */
+    padding: 10px;
+    border: 1px solid #40444b; /* Border similar to Discord */
+    border-radius: 20px; /* Rounded corners for a sleek look */
+    background-color: rgba(64, 68, 75, 0.9); /* Darker input background with transparency */
+    color: white; /* Input text color */
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#messageInput::placeholder {
+    color: #b9bbbe; /* Placeholder text color */
+}
+
+#sendMessageButton {
+    background-color: #7289da; /* Discord-like blue */
+    color: white;
+    border: none;
+    padding: 10px 15px; /* Add padding for button */
+    margin-left: 10px; /* Space between input and button */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#sendMessageButton:hover {
+    background-color: #5b6eae; /* Darker blue on hover */
+}
+
+#closeModalButton {
+    
+    background-color: #dc3545; /* Red background */
+    color: white;
+    border: none;
+    top: 10px; /* Adjusted to give space from the top */
+    right: 10px; /* Position to the right */
+    padding: 8px; /* Adjusted padding for better appearance */
+    border-radius: 50%; /* Circular button for a modern look */
+    cursor: pointer;
+    width: 40px; /* Fixed width for the close button */
+    height: 40px; /* Fixed height for the close button */
+}
+
+#closeModalButton:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+#messageStatus {
+    margin-top: 10px;
+    color: #b9bbbe; /* Message status color */
+    font-size: 14px;
+}
+
+.friendItem {
+    background-color: #40444b; /* Background for each friend item */
+    color: white; /* Text color */
+    border-radius: 5px; /* Rounded corners for friend items */
+    padding: 10px; /* Padding for friend items */
+    margin: 5px 0; /* Margin between friend items */
+    transition: background-color 0.2s; /* Transition for hover effect */
+    cursor: pointer; /* Pointer cursor for interactivity */
+}
+
+.friendItem:hover {
+    background-color: #3c4874; /* Change background on hover */
+}
+.container7 {
+    position: absolute;
+    background-color: rgba(20, 20, 20, 0.9); /* Dark background similar to Discord */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding for spacing */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    
+    top: 10%;   
+    margin: 20px; /* Margin for spacing outside the container */
+
+    display: none;
+}
+
+#addfriendhd {
+    color: white; /* Header text color */
+    font-size: 24px; /* Font size for header */
+    margin-bottom: 15px; /* Spacing below the header */
+}
+
+label {
+    color: #b9bbbe; /* Label text color */
+    font-size: 16px; /* Font size for labels */
+    display: block; /* Make label a block element */
+    margin-bottom: 5px; /* Spacing below the label */
+}
+
+#inputContainer {
+    display: flex; /* Flexbox to align input and button */
+    margin-bottom: 15px; /* Space below the input and button */
+}
+
+input[type="email"] {
+    flex: 1; /* Allow input to grow */
+    padding: 10px; /* Padding for input */
+    border: 1px solid #40444b; /* Border similar to Discord */
+    border-radius: 5px; /* Rounded corners */
+    background-color: rgba(64, 68, 75, 0.9); /* Dark input background */
+    color: white; /* Input text color */
+    outline: none; /* Remove outline on focus */
+    transition: border-color 0.3s; /* Transition for border color */
+    margin-right: 10px; /* Space between input and button */
+}
+
+input[type="email"]::placeholder {
+    color: #b9bbbe; /* Placeholder text color */
+}
+
+input[type="email"]:focus {
+    border-color: #7289da; /* Blue border on focus */
+}
+
+button[type="submit"] {
+    background-color: #7289da; /* Discord-like blue */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    transition: background-color 0.3s; /* Transition for background color */
+}
+
+button[type="submit"]:hover {
+    background-color: #5b6eae; /* Darker blue on hover */
+}
+
+#responseMessage {
+    margin-top: 10px; /* Space above response message */
+    color: #b9bbbe; /* Message status color */
+    font-size: 14px; /* Font size for response message */
+}
+
+
+#messagesContainer {
+    max-height: 600px; /* Limit height to avoid overflow */
+    overflow-y: auto; /* Allow scrolling if content exceeds the height */
+    margin-top: 10px; /* Space above */
+    padding: 10px; /* Padding for spacing */
+    background-color: rgba(30, 30, 30, 0.8); /* Background color for visibility */
+    border-radius: 5px; /* Rounded corners */
+    color: white; /* Text color */
+}
+/* Chat container */
+#messagesContainer {
+    background-color: #202020;
+    padding: 15px;
+    max-height: 500px;
+    overflow-y: scroll;
+    border-radius: 8px;
+}
+
+/* Each message box */
+.message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #141414;
+    border-radius: 5px;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sender's name */
+.sender {
+    font-weight: bold;
+    margin-right: 10px;
+    color: lightgray;
+    opacity: 0.75;
+}
+
+/* Message content */
+.content {
+    flex: 1;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Scrollbar customization */
+#messagesContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#messagesContainer::-webkit-scrollbar-thumb {
+    background-color: #202225;
+    border-radius: 4px;
+}
+#friendname {
+
+font-size: 20px;
+
+color: lightgray;
+  
+}
+
+#callButton {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+#callButton:hover {
+    background-color: darkgreen;
+}
+
+/* Incoming Call Modal Styles */
+#answer {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    left: 50%; /* Center horizontally */
+    top: 50%; /* Center vertically */
+    transform: translate(-50%, -50%); /* Adjust to center */
+    background-color: #2f3136; /* Dark background */
+    color: #ffffff; /* White text color */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Inner spacing */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: 300px; /* Width of the modal */
+    text-align: center; /* Center text */
+}
+
+/* Incoming Call Message Styles */
+#incomingCallMessage {
+    font-size: 16px; /* Font size for the message */
+    margin-bottom: 20px; /* Spacing below the message */
+}
+
+/* Button Styles */
+button {
+    background-color: #7289da; /* Discord blurple */
+    color: #ffffff; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding around the text */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size for buttons */
+    margin: 0 5px; /* Spacing between buttons */
+    transition: background-color 0.2s; /* Smooth background color transition */
+}
+
+/* Button Hover Effects */
+button:hover {
+    background-color: #23305a; /* Darker shade on hover */
+}
+
+/* Accept Button */
+#acceptCallButton {
+    background-color: #43b581; /* Green for accept */
+}
+
+/* Deny Button */
+#denyCallButton {
+    background-color: #f04747; /* Red for deny */
+}
+
+/* Deny Button Hover */
+#denyCallButton:hover {
+    background-color: #e03e3e; /* Darker red on hover */
+}
+
+
+
+.video-container {
+    display: flex;            /* Use flexbox */
+    flex-direction: column;   /* Stack items vertically */
+    align-items: flex-start;   /* Align items to the start (left) */
+    width: auto;              /* Auto width to fit content */
+    position: absolute;        /* Remove from document flow */
+    right: -33%;                  /* Align to the left edge */
+    top: 0;                   /* Optional: Adjust top position if needed */
+}
+
+/* Video player styles */
+.video-player {
+    width: 85%;              /* Full width to ensure it fills the container */
+    height: auto;             /* Maintain aspect ratio */
+    max-height: 200px;        /* Limit max height */
+    margin: 10px 0;          /* Add vertical margin between videos */
+   /* Optional: Add a border for better visibility */
+    border-radius: 5px;       /* Optional: Rounded corners */
+}
+
+
+body {
+    background-color: #2c2f33;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header,  .container7 {
+    background-color: #23272a;
+    color: #ffffff;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+nav button {
+    background-color: #7289da;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+nav button:hover {
+    background-color: #5b6eae;
+}
+
+
+
+#messageModal {
+    background-color: #202225;
+    color: #ffffff;
+    border: 1px solid #2c2f33;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+#inputContainer input, #inputContainer button {
+    background-color: #2c2f33;
+    color: #ffffff;
+    border: 1px solid #7289da;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+#inputContainer button {
+    background-color: #7289da;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#inputContainer button:hover {
+    background-color: #5b6eae;
+}
+
+#messagesContainer {
+    background-color: #2c2f33;
+    border: 1px solid #23272a;
+    border-radius: 5px;
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+    margin-top: 10px;
+}
+
+.message {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #23272a;
+}
+
+.video-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+
+    width: 40%;
+
+    height: 70%;
+
+    right: -44%;
+}
+
+.video-player {
+    width: 60%;
+   
+    border-radius: 5px;
+
+    height: 70%;
+}
+
+#addFriendForm {
+    background-color: #2c2f33;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#addFriendForm input, #addFriendForm button {
+    background-color: #2c2f33;
+    color: #ffffff;
+    border: 1px solid #7289da;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+#addFriendForm button {
+    background-color: #7289da;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#addFriendForm button:hover {
+    background-color: #5b6eae;
+}
+
+#answer {
+    background-color: #23272a;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#answer button {
+    background-color: #7289da;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#answer button:hover {
+    background-color: #5b6eae;
+}
+#send-file {
+    background-color: #7289da; /* Discord blue */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 20px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+#send-file:hover {
+    background-color: #5b6eae; /* Slightly darker shade for hover effect */
+}
+
+#send-file:active {
+    background-color: #4a5c8a; /* Even darker shade for active effect */
+}
+
+#send-file:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(114, 137, 218, 
