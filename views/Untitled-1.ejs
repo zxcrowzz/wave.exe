@@ -131,7 +131,9 @@
 <script>
 
 
-
+let isLoading = false;
+let skip = 0;
+let limit = 5;
     let currentUserId = null;
   const scrollPost = document.getElementById("scrollPost")
   const btnsend = document.getElementById("sendBtn")
@@ -1155,19 +1157,44 @@ const displayPosts = (posts) => {
 
     const profileImgSrc = post.profilePicture || 'https://via.placeholder.com/100';
 
-    // Render the post content with a conditional delete button
+    // Render the post content with conditional delete button
     postElement.innerHTML = `
       <h3 id="nameElement">${post.userId.name}</h3>
       <p id="msglz">${post.text}</p>
-      <img id="postPicture1" src="${post.imgSrc}" alt="Post Image">
       <small id="timeElement">${new Date(post.time).toLocaleString()}</small>
       <img id="postPicture" src="${profileImgSrc}" alt="Profile Picture">
       ${post.canDelete ? '<button class="delete-post-btn">Delete</button>' : ''}
     `;
 
+    // If the post contains a video, render it
+    if (post.videoSrc) {
+      const videoElement = document.createElement('video');
+      videoElement.controls = true;
+      videoElement.src = post.videoSrc;
+      videoElement.style.maxWidth = "100%";
+      
+      // Check if the video duration is greater than 30 seconds
+      const video = document.createElement('video');
+      video.preload = "metadata";
+      video.src = post.videoSrc;
+      video.onloadedmetadata = function () {
+        if (video.duration > 30) {
+          alert("Video exceeds 30 seconds.");
+        } else {
+          postElement.appendChild(videoElement); // Append the video
+        }
+      };
+    } else if (post.imgSrc) {
+      const imageElement = document.createElement('img');
+      imageElement.src = post.imgSrc;
+      imageElement.alt = "Post Image";
+      postElement.appendChild(imageElement);
+    }
+
     postsContainer.appendChild(postElement);
   });
 };
+
 
 // Handle deletion of a post
 document.getElementById('scrollPost').addEventListener('click', async (e) => {
