@@ -873,7 +873,7 @@ function appendMessageToChat(messageData) {
 
 // Function to load messages
 function loadMessages(friendName, currentEmail) {
-    const url = `https://10.0.0.66:3000/get-messages?friend=${friendName}&name=${currentUser}`;
+    const url = `https://r3dxx-9ce6f110c87b.herokuapp.com/get-messages?friend=${friendName}&name=${currentUser}`;
 
     fetch(url)
         .then(response => response.json())
