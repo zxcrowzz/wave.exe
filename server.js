@@ -567,29 +567,31 @@ app.post('/add-friend', checkAuthenticated, async (req, res) => {
 
 
 app.post("/api/create-post", async (req, res) => {
-    const { userId, text, imgSrc, time , userNamez } = req.body;  // Extract post data from the request
-  
-    // Create a new post document
-    const newPost = new Post({
-      userId,
-      text,
-      imgSrc,
-      time,
-      userNamez,
-    });
-  
-    try {
-      // Save the post to the database
-      const savedPost = await newPost.save();
-      console.log("Post saved successfully!");
-  
-      // Return the saved post to the client (optional)
-      res.json({ success: true, post: savedPost });
-    } catch (error) {
-      console.error("Failed to save post:", error);
-      res.status(500).json({ success: false, error: "Failed to save post." });
-    }
+  const { userId, text, imgSrc, videoSrc, time, userNamez } = req.body; // Extract data from the request
+
+  // Create a new post document
+  const newPost = new Post({
+    userId,
+    text,
+    imgSrc: imgSrc || null, // Optional field for image
+    videoSrc: videoSrc || null, // Optional field for video
+    time,
+    userNamez,
   });
+
+  try {
+    // Save the post to the database
+    const savedPost = await newPost.save();
+    console.log("Post saved successfully!");
+
+    // Return the saved post to the client (optional)
+    res.json({ success: true, post: savedPost });
+  } catch (error) {
+    console.error("Failed to save post:", error);
+    res.status(500).json({ success: false, error: "Failed to save post." });
+  }
+});
+
   
 
 
