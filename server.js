@@ -45,12 +45,13 @@ const Post = require('./models/post');
 let connectedClients = 0;
 //we changed our express setup so we can use https
 //pass the key and cert to createServer on https
-const key = fs.readFileSync('cert.key');
-const cert = fs.readFileSync('cert.crt');
+
 // Create our socket.io server
 const PendingUser = require('./models/PendingUser');
 //create our socket.io server... it will listen to our express port
-const expressServer = https.createServer({key, cert}, app);
+const expressServer = app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server running on port ${process.env.PORT || 3000}`);
+});
 // Create our socket.io server
 
 //create our socket.io server... it will listen to our express port
@@ -58,12 +59,12 @@ const io = socketio(expressServer,{
     cors: {
         origin: [
             "https://localhost",
-             'https://10.0.0.66' //if using a phone or another computer
+             'https://r3dxx-9ce6f110c87b.herokuapp.com' //if using a phone or another computer
         ],
         methods: ["GET", "POST"]
     }
 });
-expressServer.listen(3000);
+
 //offers will contain {}
 let offers = [
 
