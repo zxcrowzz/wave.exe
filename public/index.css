@@ -1735,24 +1735,7 @@ left: 48%;
   }
 
 
-#videoPreviewContainer {
 
-    position: absolute;
-  
-    width: 55px;
-    height: 55px;
-    
-    z-index: 3;
-    
-    
-    top: 15%;
-    
-    left: 4%;
-
-    border-radius: 30px;
-
-
-}
 
 
   #bruh {
@@ -2425,7 +2408,7 @@ button:hover {
 
 
 
-    : 10;
+   
 
 
     border-radius: 10px;
@@ -2438,6 +2421,22 @@ button:hover {
     position: absolute;
 
     right: 0;
+}
+
+#videoPreviewContainer {
+
+    border-radius: 10px;
+
+
+    height: 20px;
+
+    width: 20px;
+
+    position: absolute;
+
+    right: 0;
+}
+
 }
 
 #timeElement {
