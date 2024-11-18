@@ -381,46 +381,74 @@ loadFriends();
 
 // Handle file input and image preview
 document.getElementById("uploadz").addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    const pfppostContainer = document.getElementById("pfppostContainer1");
+    const file = e.target.files[0]; // Get the selected file
+    const previewContainer = document.getElementById("pfppostContainer1"); // For images
+    const videoContainer = document.getElementById("videoPreviewContainer"); // For videos
 
     if (file) {
-      // Create a URL for the image and display it in the preview image element
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const img = new Image();
-        img.src = event.target.result;
+        // Reset previous previews
+        previewContainer.style.display = "none";
+        videoContainer.style.display = "none";
+        videoContainer.innerHTML = ""; // Clear video content if any
 
-        img.onload = function () {
-          // Create a canvas to resize and compress the image
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
+        // Check the file type (image or video)
+        if (file.type.startsWith("image/")) {
+            // Image Handling
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const img = new Image();
+                img.src = event.target.result;
 
-          // Set the target dimensions (you can adjust max width/height as needed)
-          const maxWidth = 800;  // Max width in pixels
-          const scaleFactor = maxWidth / img.width;
-          const maxHeight = img.height * scaleFactor;
+                img.onload = function () {
+                    // Create a canvas to resize and compress the image
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
 
-          // Set canvas size
-          canvas.width = maxWidth;
-          canvas.height = maxHeight;
+                    // Define maximum dimensions (adjust as needed)
+                    const maxWidth = 800;
+                    const scaleFactor = maxWidth / img.width;
+                    const maxHeight = img.height * scaleFactor;
 
-          // Draw the image on the canvas with the new size
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    // Set the canvas dimensions
+                    canvas.width = maxWidth;
+                    canvas.height = maxHeight;
 
-          // Compress the image to JPEG format with quality 0.7 (adjustable)
-          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+                    // Draw the resized image on the canvas
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-          // Set the compressed image to the preview container
-          pfppostContainer.src = compressedDataUrl;
-          pfppostContainer.style.display = "block"; // Show the preview image
-        };
-      };
-      reader.readAsDataURL(file);
+                    // Compress the image to JPEG format with quality 0.7
+                    const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+
+                    // Set the compressed image as the source of the preview container
+                    previewContainer.src = compressedDataUrl;
+                    previewContainer.style.display = "block"; // Make sure it's visible
+                };
+            };
+
+            // Read the file as a data URL
+            reader.readAsDataURL(file);
+        } else if (file.type.startsWith("video/")) {
+            // Video Handling
+            const video = document.createElement("video");
+            video.src = URL.createObjectURL(file);
+            video.controls = true;
+            video.style.maxWidth = "100%"; // Adjust as needed
+            video.style.height = "auto";
+
+            // Append the video to the video container
+            videoContainer.appendChild(video);
+            videoContainer.style.display = "block"; // Make sure it's visible
+        } else {
+            // Handle unsupported file types
+            alert("Please upload a valid image or video file.");
+        }
     } else {
-      pfppostContainer.style.display = "none"; // Hide the preview if no file is selected
+        // Hide both previews if no file is selected
+        previewContainer.style.display = "none";
+        videoContainer.style.display = "none";
     }
-  });
+});
+
 
 // Handle the Share button click to post the image, text, etc.
 btnsend.addEventListener("click", async function () {
