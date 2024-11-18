@@ -2160,6 +2160,8 @@ height: 220px;
 
 
     top: 20%;
+
+    z-index: 100;
 }
 
 .message {
@@ -2348,7 +2350,7 @@ button:hover {
 
     font-size: 25px;
 
-    z-index: 5;
+    : 5;
 
    
 
@@ -2403,7 +2405,7 @@ button:hover {
 
 
 
-    z-index: 10;
+    : 10;
 
 
     border-radius: 10px;
