@@ -452,19 +452,22 @@ document.getElementById("uploadz").addEventListener("change", function (e) {
 
 // Handle the Share button click to post the image, text, etc.
 btnsend.addEventListener("click", async function () {
-    
   // Get the text from the input field
   const text = document.getElementById("postInputContainer").value;
+
+  // Get the image URL from the preview (if an image is uploaded)
   const pfppostContainer1 = document.getElementById("pfppostContainer1");
-    const elementPF = document.getElementById('pfpIMG');
-  // Get the image URL from the preview (this will be the posted image)
-  const imgSrc = pfppostContainer1.src;
-  
-  // Get the name (this can be dynamic, hardcoded here as "User")
+  const imgSrc = pfppostContainer1.src && pfppostContainer1.style.display !== "none" ? pfppostContainer1.src : null;
+
+  // Get the video URL from the preview (if a video is uploaded)
+  const videoContainer = document.getElementById("videoPreviewContainer");
+  const videoElement = videoContainer.querySelector("video");
+  const videoSrc = videoElement ? videoElement.src : null;
+
+  // Get the user's profile picture and name
+  const elementPF = document.getElementById("pfpIMG");
   const name = currentUser;
 
-  
-  
   // Get the timestamp
   const now = new Date();
   const time = now.toLocaleString(); // or any format you prefer
@@ -472,26 +475,22 @@ btnsend.addEventListener("click", async function () {
   // Create new post container elements
   const newPost = document.createElement("div");
   const newImg = document.createElement("img");
+  const newVideo = document.createElement("video");
   const newImg1 = document.createElement("img");
   const nameElement = document.createElement("h3");
   const timeElement = document.createElement("h3");
   const msgElement = document.createElement("h3");
-const likeBtn = document.createElement("button");
+  const likeBtn = document.createElement("button");
 
-likeBtn.setAttribute('id', "likeBtn")
+  likeBtn.setAttribute("id", "likeBtn");
 
-newPost.appendChild(likeBtn);
-
-
-
-
-likeBtn.addEventListener('click', function () {
+  likeBtn.addEventListener("click", function () {
     if (likeBtn.id === "likeBtnConfirm") {
-        likeBtn.id = "likeBtn";
+      likeBtn.id = "likeBtn";
     } else {
-        likeBtn.id = "likeBtnConfirm";
+      likeBtn.id = "likeBtnConfirm";
     }
-});
+  });
 
   // Set up content for each element
   nameElement.innerHTML = name;
@@ -504,19 +503,45 @@ likeBtn.addEventListener('click', function () {
   msgElement.setAttribute("id", "msglz");
 
   // Set the imgSrc for the new image if an image was selected
-  newImg.src = imgSrc || "https://via.placeholder.com/100"; // fallback to placeholder
-  newImg.setAttribute("id", "postPicture1");
+  if (imgSrc) {
+    newImg.src = imgSrc;
+    newImg.setAttribute("id", "postPicture1");
+    newPost.appendChild(newImg);
+  }
+
+  // Set the videoSrc for the new video if a video was selected
+  if (videoSrc) {
+    newVideo.src = videoSrc;
+    newVideo.controls = true;
+    newVideo.setAttribute("id", "postVideo");
+    newVideo.style.maxWidth = "100%";
+    newVideo.style.height = "auto";
+    newPost.appendChild(newVideo);
+  }
+
+  // Add user's profile picture
   newImg1.setAttribute("id", "postPicture");
   newImg1.src = elementPF.src;
-  // Append all elements to the new post
+
+  // Append elements to the new post
   newPost.setAttribute("id", "post1");
   newPost.appendChild(nameElement);
   newPost.appendChild(timeElement);
   newPost.appendChild(msgElement);
-  newPost.appendChild(newImg);
   newPost.appendChild(newImg1);
-  const postData = { userId: currentUserId, text: text , imgSrc: imgSrc, time: time , userNamez: currentUser }; // userId should be defined elsewhere
+  newPost.appendChild(likeBtn);
 
+  // Prepare the post data for the backend
+  const postData = {
+    userId: currentUserId,
+    text: text,
+    imgSrc: imgSrc,
+    videoSrc: videoSrc,
+    time: time,
+    userNamez: currentUser,
+  };
+
+  // Send the post data to the backend
   try {
     const response = await fetch("/api/create-post", {
       method: "POST",
@@ -532,18 +557,16 @@ likeBtn.addEventListener('click', function () {
   } catch (error) {
     console.error("Error:", error);
   }
+
   // Append the new post to the scroll container
   document.getElementById("scrollPost").prepend(newPost);
 
-  // Clear the input field and reset the preview image
+  // Clear the input field and reset the preview image and video
   document.getElementById("postInputContainer").value = "";
-
   pfppostContainer1.src = "";
-  pfppostContainer1.style.display = "none"; // Hide the preview image again
-
-
-
-  
+  pfppostContainer1.style.display = "none"; // Hide the preview image
+  videoContainer.innerHTML = ""; // Clear the video preview
+  videoContainer.style.display = "none"; // Hide the video container
 });
 
 
